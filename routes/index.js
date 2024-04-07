@@ -1,0 +1,26 @@
+const Router = require('express')
+const  router = new Router()
+const ageRatingRouter = require('./ageRatingRoutes')
+const entranceRouter = require('./entranceRoutes')
+const eventRouter = require('./eventRoutes')
+const hallRouter = require('./hallRoutes')
+const orderRouter = require('./orderRoutes')
+const seatRouter = require('./seatRoutes')
+const ticketRouter = require('./ticketRoutes')
+const typeRouter = require('./typeRoutes')
+const userRouter = require('./userRoutes')
+const controllerRoutes = require('./controllerRoutes')
+
+const  authMiddleware = require('../middlewares/authMiddleware')
+
+router.use('/ageRating', ageRatingRouter)
+router.use('/entrance', entranceRouter)
+router.use('/event', eventRouter)
+router.use('/hall', hallRouter)
+router.use('/order',  orderRouter)
+router.use('/ticket', ticketRouter)
+router.use('/type', typeRouter)
+router.use('/user', userRouter)
+router.use('/controller', controllerRoutes)
+
+module.exports = router
