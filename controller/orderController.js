@@ -79,6 +79,11 @@ class OrderController {
                                 model: EntranceOptionPrice,
                                 as: 'entranceOptionPrices',
                                 include: [{model: EntranceOption, as: 'entranceOption'}]
+                            },
+                            {
+                                model: HallOptionPrice,
+                                as: 'hallOptionPrices',
+                                include: [{model: HallOption, as: 'hallOption'}]
                             }
                         ]
                     }

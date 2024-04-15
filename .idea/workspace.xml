@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="допилины некоторые функции">
+    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="доделано оформление билетов с залом и их просмотр">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/entranceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/entranceController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/hallController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/hallController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/orderController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/orderController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/ticketController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ticketController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/entranceRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/entranceRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/eventRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/eventRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/hallRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/hallRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +58,7 @@
       <option name="presentableId" value="Default" />
       <updated>1712521367451</updated>
       <workItem from="1712521368613" duration="39143000" />
-      <workItem from="1713177105411" duration="7404000" />
+      <workItem from="1713177105411" duration="22039000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />
@@ -61,7 +68,15 @@
       <option name="project" value="LOCAL" />
       <updated>1713178777438</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="доделано оформление билетов с залом и их просмотр">
+      <option name="closed" value="true" />
+      <created>1713191732374</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713191732374</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -70,6 +85,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="добавил домен" />
     <MESSAGE value="допилины некоторые функции" />
-    <option name="LAST_COMMIT_MESSAGE" value="допилины некоторые функции" />
+    <MESSAGE value="доделано оформление билетов с залом и их просмотр" />
+    <option name="LAST_COMMIT_MESSAGE" value="доделано оформление билетов с залом и их просмотр" />
   </component>
 </project>

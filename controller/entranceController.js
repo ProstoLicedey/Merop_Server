@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, EntranceOptionPrice, EntranceOption, Entrance} = require('../models/models')
+const {Event, EntranceOptionPrice, EntranceOption, Entrance, Hall, HallOption} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -62,31 +62,50 @@ class EventController {
     async getByID(req, res, next) {
         try {
             const { id } = req.params;
-            const entrance = await Entrance.findOne({
-                where: { id: id },
-                include: EntranceOption,
-            });
+            let {  type } = req.query;
+            console.log(id, type)
+            let answer;
+            if(type === "Entrance") {
+                answer = await Entrance.findOne({
+                    where: {id: id},
+                    include: EntranceOption,
+                });
+            }
+            else if(type === "Hall"){
+                answer = await Hall.findOne({
+                    where: {id: id},
+                    include: HallOption,
+                });
+            }
 
 
 
-            return res.json(entrance);
+            return res.json(answer);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
     }
-    async getEntenceUser(req, res, next) {
+    async getEntenceHallUser(req, res, next) {
         try {
             const { id } = req.params;
             const entrance = await Entrance.findAll({
                 where: { userId: id },
             });
-            const transformedEntrance = entrance.map(entry => ({
+            const hall = await Hall.findAll({
+                where: { userId: id },
+            });
+            const transformed = entrance.map(entry => ({
                 value: entry.id,
                 label: entry.name,
-            }));
+                type: 'Entrance', // Указать тип объекта как Entrance
+            })).concat(hall.map(h => ({
+                value: h.id,
+                label: h.name,
+                type: 'Hall', // Указать тип объекта как Hall
+            })));
 
 
-            return res.json(transformedEntrance);
+            return res.json(transformed);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }

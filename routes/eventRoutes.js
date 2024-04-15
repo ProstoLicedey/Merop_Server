@@ -6,6 +6,7 @@ router.get('/creator', eventController.getCreator)
 router.post('/', eventController.create)
 router.get('/', eventController.getAll )
 router.get('/:id', eventController.getOne )
+router.delete('/', eventController.delete )
 
 router.delete('/',)
 

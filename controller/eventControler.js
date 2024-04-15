@@ -9,7 +9,7 @@ const {
     Type,
     EntranceOptionPrice,
     HallOptionPrice,
-    EntranceOption
+    EntranceOption, Controller, User, Ticket
 } = require('../models/models')
 const {Op, fn, col} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
@@ -51,18 +51,17 @@ class EventController {
 
             const EOP = await Promise.all(option.map(async (entrance) => {
                 const entranceOption = await EntranceOption.findOne({
-                    where: { id: entrance.id }
+                    where: {id: entrance.id}
                 });
-                if(entrance.switchState) {
+                if (entrance.switchState) {
                     return EntranceOptionPrice.create({
                         price: entrance.price,
                         seatsLeft: entranceOption.totalSeats,
                         entranceOptionId: entrance.id,
                         eventId: event.id
                     });
-                }
-                else {
-                    return  null
+                } else {
+                    return null
                 }
             }));
 
@@ -196,17 +195,49 @@ class EventController {
                 where: {userId},
                 include: [
                     {model: Hall, as: 'hall'},
-                    {model: Entrance, as: 'entrance'}
+                    {model: Entrance, as: 'entrance'},
+
                 ]
             })
 
 
             // Преобразование данных
-            const formattedEvents = events.map(event => {
+            const formattedEvents = await Promise.all(events.map(async event => {
+
+                const EOPs = await EntranceOptionPrice.findAll({
+                    where: {eventId: event.id},
+                });
+                const EOs = await EntranceOption.findAll({
+                    where: {entranceId: event.entranceId},
+                });
+                let seatsLeftSum, seatsTotalSum, mests;
+
+                if(EOPs.length > 0 && EOs.length > 0) {
+                     seatsLeftSum = EOPs.reduce((total, eop) => total + eop.seatsLeft, 0);
+                     seatsTotalSum = EOs.reduce((total, eo) => total + eo.totalSeats, 0);
+                     mests = seatsLeftSum + "/" + seatsTotalSum
+                }
+                else{
+                    const ticketCount = await Ticket.count({
+                        where: {eventId: event.id},
+                    });
+                    const hall = await Hall.findOne({
+                        where: {id: event.hallId},
+                    });
+                    if(!!hall) {
+                        seatsTotalSum = hall.numberRows * hall.numberSeatsInRow;
+                        seatsLeftSum = seatsTotalSum - ticketCount;
+                        mests = seatsLeftSum + "/" + seatsTotalSum
+                    }
+                }
+
+
                 const formattedEvent = {
                     id: event.id,
                     title: event.title,
                     dateTime: moment(event.dateTime).locale('ru').format('DD MMMM HH:mm ddd'),
+                    mests: mests? mests : '',
+
                 };
 
                 // Добавление адреса из Entrance, если entranceId не равно null
@@ -219,11 +250,31 @@ class EventController {
                 }
 
                 return formattedEvent;
-            });
+            }));
 
             return res.json(formattedEvents);
         } catch (e) {
             next(e)
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const {id} = req.query
+            const deletedController = await Event.destroy({
+                where: {
+                    id: id,
+                },
+            });
+
+
+            if (!deletedController) {
+                return next(ApiError.BadRequest(`Мероприятие не найдено`));
+            }
+
+            return res.json({message: `Controller with id ${id} has been deleted successfully`});
+        } catch (e) {
+            next(ApiError.BadRequest(e));
         }
     }
 

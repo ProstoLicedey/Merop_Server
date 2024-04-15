@@ -124,8 +124,6 @@ const HallOptionPrice = sequelize.define('hallOptionPrice', {
 
 
 
-
-
 User.hasMany(Order)
 Order.belongsTo(User)
 
