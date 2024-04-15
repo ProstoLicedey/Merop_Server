@@ -1,39 +1,69 @@
-
-const {Type, Order, Ticket,datePassword, Event, Entrance, User, EntranceOptionPrice, EntranceOption} = require('../models/models')
+const {
+   
+    Order,
+    Ticket,
+    datePassword,
+    Event,
+    Entrance,
+   
+    EntranceOptionPrice,
+    EntranceOption, HallOption, HallOptionPrice, Hall
+} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
 const fse = require('fs-extra');
 const {join} = require("path");
-const { Sequelize, DataTypes } = require('sequelize');
+const {Sequelize, DataTypes} = require('sequelize');
+
 class OrderController {
     async create(req, res, next) {
         try {
-            let { userId, tickets } = req.body;
+            let {userId, tickets} = req.body;
 
-            const order = await Order.create({ userId });
+            const order = await Order.create({userId});
 
             if (tickets) {
+
                 tickets = JSON.parse(tickets);
                 for (const i of tickets) {
-                    console.log(i);
-                    let number =
-                        String(i.eventId).substr(0, 1) +
-                        String(userId).substr(0, 1) +
-                        String(order.id).substr(0, 1) +
-                        (Math.floor(Math.random() * 9000) + 1000);
-                    let entranceOptionPrice = await EntranceOptionPrice.findOne({
-                        where: { id: i.entranceOptionPriceId },
-                    });
+                    console.log(i)
+                    if (!!i.entranceOptionPriceId) {
 
-                    entranceOptionPrice.seatsLeft -= 1;
-                    await entranceOptionPrice.save();
+                        let number =
+                            String(i.eventId).substr(0, 1) +
+                            String(userId).substr(0, 1) +
+                            String(order.id).substr(0, 1) +
+                            (Math.floor(Math.random() * 9000) + 1000);
+                        let entranceOptionPrice = await EntranceOptionPrice.findOne({
+                            where: {id: i.entranceOptionPriceId},
+                        });
 
-                    await Ticket.create({
-                        orderId: order.id,
-                        eventId: i.eventId,
-                        number: Number(number),
-                        entranceOptionPriceId: i.entranceOptionPriceId,
-                    });
+                        entranceOptionPrice.seatsLeft -= 1;
+                        await entranceOptionPrice.save();
+
+                        await Ticket.create({
+                            orderId: order.id,
+                            eventId: i.eventId,
+                            number: Number(number),
+                            entranceOptionPriceId: i.entranceOptionPriceId,
+                        });
+                    } else {
+
+                        let number =
+                            String(i.hall.event.id).substr(0, 1) +
+                            String(userId).substr(0, 1) +
+                            String(order.id).substr(0, 1) +
+                            (Math.floor(Math.random() * 9000) + 1000);
+
+                        await Ticket.create({
+                            orderId: order.id,
+                            eventId: i.hall.event.id,
+                            number: Number(number),
+                            row: i.row,
+                            seat: i.seat,
+                           // hallОptionPriceId: hallOptionPrice.id,
+                        });
+                    }
                 }
             }
 
@@ -83,19 +113,21 @@ class OrderController {
         }
     }
 
+
+
     async getOrders(req, res, next) {
         try {
-            const { id } = req.params;
+            const {id} = req.params;
 
             const orders = await Order.findAll({
-                where: { userId: id },
+                where: {userId: id},
                 include: [
                     {
                         model: Ticket,
                         include: [
                             {
                                 model: Event,
-                                include: [{ model: Entrance }],
+                                include: [{model: Entrance}],
                             },
                         ],
                     },
@@ -126,7 +158,7 @@ class OrderController {
                     dateTime: firstTicket && firstTicket.event ? firstTicket.event.dateTime : null,
                     address,
                     addressName,
-                     title: firstTicket && firstTicket.event ? firstTicket.event.title : null,
+                    title: firstTicket && firstTicket.event ? firstTicket.event.title : null,
                     status: firstTicket && firstTicket.event ? firstTicket.event.Status : null,
                     img: firstTicket && firstTicket.event ? firstTicket.event.img : null,
                 };
@@ -141,19 +173,20 @@ class OrderController {
             next(ApiError.BadRequest(e));
         }
     }
+
     async getByuers(req, res, next) {
         try {
-            const { id } = req.params;
+            const {id} = req.params;
 
             const event = await Event.findAll({
-                where: { userId: id },
+                where: {userId: id},
                 include: [
                     {
                         model: Ticket,
                         include: [
                             {
                                 model: Event,
-                                include: [{ model: Entrance }],
+                                include: [{model: Entrance}],
                             },
                         ],
                     },

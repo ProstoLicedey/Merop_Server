@@ -1,6 +1,6 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, HallOptionPrice, Entrance, Hall, } = require('../models/models')
+const {Event, HallOptionPrice, Entrance, Hall, HallOption, Ticket, } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -56,8 +56,12 @@ class HallController {
                     }
                 ]
             });
+            const tickets = await Ticket.findAll({
+                attributes: ['row', 'seat'],
+                where: { eventId: id }
+            });
 
-            return res.json({event, hallOptionPrice});
+            return res.json({event, hallOptionPrice, tickets});
         } catch (e) {
             next(ApiError.BadRequest(e));
         }

@@ -1,0 +1,11 @@
+# Игнорирование директории node_modules
+node_modules/
+
+# Игнорирование файла package-lock.json
+package-lock.json
+
+# Игнорирование файла .env
+.env
+
+# Игнорирование директории build
+build/

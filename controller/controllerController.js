@@ -4,6 +4,7 @@ const {Controller, User} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
 
+
 class ControllerController {
 
     async getAll(req, res, next) {

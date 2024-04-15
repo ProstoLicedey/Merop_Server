@@ -17,7 +17,7 @@ app.use(fileUpload({}))
 app.use(cookieParser())
 app.use(cors({
     credentials: true,
-    origin: process.env.CLIENT_URL
+    origin: [process.env.CLIENT_URL, 'http://31.129.57.26:3000']
 }))
 app.use(express.json())
 app.use('/api', router)

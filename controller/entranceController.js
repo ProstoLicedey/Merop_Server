@@ -33,7 +33,7 @@ class EventController {
     async getFromEvent(req, res, next) {
         try {
             const { id } = req.params;
-            let {eventId} = req.query
+            let { eventId } = req.query;
             const event = await EntranceOption.findAll({
                 where: { entranceId: id },
             });
@@ -43,14 +43,22 @@ class EventController {
                     where: { eventId: eventId, entranceOptionId: item.id },
                 });
 
-                return { ...item.toJSON(), entranceOptionPrice };
+                // Добавляем объект только если entranceOptionPrice не равен null
+                if (entranceOptionPrice !== null) {
+                    return { ...item.toJSON(), entranceOptionPrice };
+                }
+                return null; // Возвращаем null для исключения объекта из результирующего массива
             }));
 
-            return res.json(updatedEvent);
+            // Фильтруем элементы, исключая null
+            const filteredEvent = updatedEvent.filter(item => item !== null);
+
+            return res.json(filteredEvent);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
     }
+
     async getByID(req, res, next) {
         try {
             const { id } = req.params;

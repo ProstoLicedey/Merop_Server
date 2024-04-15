@@ -146,8 +146,6 @@ Ticket.belongsTo(Order)
 EntranceOptionPrice.hasMany(Ticket)
 Ticket.belongsTo(EntranceOptionPrice)
 
-HallOptionPrice.hasMany(Ticket)
-Ticket.belongsTo(HallOptionPrice)
 
 User.hasMany(Event)
 Event.belongsTo(User)

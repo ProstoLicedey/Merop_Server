@@ -1,6 +1,16 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Event, DeviceInfo, Entrance, Hall, AgeRating, Type, EntranceOptionPrice, HallOptionPrice} = require('../models/models')
+const {
+    Event,
+    DeviceInfo,
+    Entrance,
+    Hall,
+    AgeRating,
+    Type,
+    EntranceOptionPrice,
+    HallOptionPrice,
+    EntranceOption
+} = require('../models/models')
 const {Op, fn, col} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
 const ApiError = require('../exeptions/apiError')
@@ -11,13 +21,50 @@ class EventController {
     async create(req, res, next) {
         try {
 
-            let {title, description, dateTime, typeId, ageRatingId, userId} = req.body
+            let {title, description, dateTime, typeId, ageRatingId, userId, option} = req.body
             const {img} = req.files
+
+            option = JSON.parse(option);
 
             let fileName = uuid.v4() + ".jpeg"
             await img.mv(path.resolve(__dirname, '..', 'static', fileName))
+            console.log(fileName)
 
-            const event = await Event.create({title, description, dateTime, typeId, ageRatingId, userId, img: fileName})
+            let entranceOption = await EntranceOption.findOne({
+                where: {id: option[0].id},
+                include: [
+                    {model: Entrance, as: 'entrance'}
+                ]
+            });
+
+            const event = await Event.create({
+                title,
+                description,
+                dateTime,
+                typeId,
+                ageRatingId,
+                userId,
+                entranceId: entranceOption.entrance.id,
+                img: fileName
+            })
+
+
+            const EOP = await Promise.all(option.map(async (entrance) => {
+                const entranceOption = await EntranceOption.findOne({
+                    where: { id: entrance.id }
+                });
+                if(entrance.switchState) {
+                    return EntranceOptionPrice.create({
+                        price: entrance.price,
+                        seatsLeft: entranceOption.totalSeats,
+                        entranceOptionId: entrance.id,
+                        eventId: event.id
+                    });
+                }
+                else {
+                    return  null
+                }
+            }));
 
 
             return res.json(event)
@@ -30,7 +77,7 @@ class EventController {
     async getAll(req, res, next) {
         try {
             let {typeId, page, priceMin, priceMax, dateMin, dateMax, serchTitle} = req.query;
-            const limit = 16;
+            const limit = 12;
             page = page || 1;
             let offset = page * limit - limit;
 
@@ -67,24 +114,27 @@ class EventController {
                 where,
                 limit,
                 offset,
-                include: [{model: Hall, as: 'hall'}, {model: Entrance, as: 'entrance'},{model: AgeRating, as: 'ageRating'}]
+                include: [{model: Hall, as: 'hall'}, {model: Entrance, as: 'entrance'}, {
+                    model: AgeRating,
+                    as: 'ageRating'
+                }]
             });
             for (let i = events.rows.length - 1; i >= 0; i--) {
                 let event = events.rows[i];
                 let minPrice = await EntranceOptionPrice.findOne({
-                    where: { eventId: event.id },
+                    where: {eventId: event.id},
                     order: [['price', 'ASC']],
                 });
                 event.dataValues.minPrice = minPrice ? minPrice.price : 0
-                if(minPrice){
+                if (minPrice) {
                     continue
                 }
-                if(priceMin > minPrice || priceMax < minPrice ){
+                if (priceMin > minPrice || priceMax < minPrice) {
 
                     events.rows.splice(i, 1);
 
                 }
-                            }
+            }
 
             return res.json(events);
         } catch (e) {
@@ -95,48 +145,48 @@ class EventController {
 
     async getOne(req, res, next) {
         try {
-        const {id} = req.params
-        const event = await Event.findOne({
-            where: {id},
-            include: [
-                {model: Hall, as: 'hall'},
-                {model: Entrance, as: 'entrance'},
-                {model: AgeRating, as: 'ageRating'},
-                {model: Type, as: 'type'}
-            ]
-        })
-        if(event.entrance) {
-            const minPrice = await EntranceOptionPrice.findOne({
-                where: {eventId: id},
-                order: [['price', 'ASC']],
-                attributes: ['price']
-            });
-            const maxPrice = await EntranceOptionPrice.findOne({
-                where: {eventId: id},
-                order: [['price', 'DESC']],
-                attributes: ['price']
-            });
-            event.dataValues.maxPrice = maxPrice.price;
-            event.dataValues.minPrice = minPrice.price;
+            const {id} = req.params
+            const event = await Event.findOne({
+                where: {id},
+                include: [
+                    {model: Hall, as: 'hall'},
+                    {model: Entrance, as: 'entrance'},
+                    {model: AgeRating, as: 'ageRating'},
+                    {model: Type, as: 'type'}
+                ]
+            })
+            if (event.entrance) {
+                const minPrice = await EntranceOptionPrice.findOne({
+                    where: {eventId: id},
+                    order: [['price', 'ASC']],
+                    attributes: ['price']
+                });
+                const maxPrice = await EntranceOptionPrice.findOne({
+                    where: {eventId: id},
+                    order: [['price', 'DESC']],
+                    attributes: ['price']
+                });
+                event.dataValues.maxPrice = maxPrice.price;
+                event.dataValues.minPrice = minPrice.price;
+            }
+            if (event.hall) {
+                const minPrice = await HallOptionPrice.findOne({
+                    where: {eventId: id},
+                    order: [['price', 'ASC']],
+                    attributes: ['price']
+                });
+                const maxPrice = await HallOptionPrice.findOne({
+                    where: {eventId: id},
+                    order: [['price', 'DESC']],
+                    attributes: ['price']
+                });
+                event.dataValues.maxPrice = maxPrice.price;
+                event.dataValues.minPrice = minPrice.price;
+            }
+            return res.json(event)
+        } catch (e) {
+            next(e)
         }
-        if(event.hall) {
-            const minPrice = await HallOptionPrice.findOne({
-                where: {eventId: id},
-                order: [['price', 'ASC']],
-                attributes: ['price']
-            });
-            const maxPrice = await HallOptionPrice.findOne({
-                where: {eventId: id},
-                order: [['price', 'DESC']],
-                attributes: ['price']
-            });
-            event.dataValues.maxPrice = maxPrice.price;
-            event.dataValues.minPrice = minPrice.price;
-        }
-        return res.json(event)
-    } catch (e) {
-        next(e)
-    }
     }
 
     async getCreator(req, res, next) {
@@ -160,7 +210,7 @@ class EventController {
                 };
 
                 // Добавление адреса из Entrance, если entranceId не равно null
-                if (event.entranceId !== null ) {
+                if (event.entranceId !== null) {
                     formattedEvent.address = event.entrance.address;
                 }
                 // Или добавление адреса из Hall, если entranceId равно null
@@ -172,8 +222,7 @@ class EventController {
             });
 
             return res.json(formattedEvents);
-        }
-        catch (e) {
+        } catch (e) {
             next(e)
         }
     }
