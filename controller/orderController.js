@@ -1,11 +1,11 @@
 const {
-   
+
     Order,
     Ticket,
     datePassword,
     Event,
     Entrance,
-   
+
     EntranceOptionPrice,
     EntranceOption, HallOption, HallOptionPrice, Hall
 } = require('../models/models')
@@ -18,60 +18,45 @@ const {Sequelize, DataTypes} = require('sequelize');
 class OrderController {
     async create(req, res, next) {
         try {
-            let {userId, tickets} = req.body;
-
-            const order = await Order.create({userId});
+            let { userId, tickets } = req.body;
+            const order = await Order.create({ userId });
 
             if (tickets) {
-
                 tickets = JSON.parse(tickets);
                 for (const i of tickets) {
-                    console.log(i)
+                    let number = `${String(i.eventId || i.hall.event.id).substr(0, 1)}${String(userId).substr(0, 1)}${String(order.id).substr(0, 1)}${Math.floor(Math.random() * 9000) + 1000}`;
+
+                    let commonTicketParams = {
+                        orderId: order.id,
+                        eventId: i.eventId || i.hall.event.id,
+                        number: Number(number),
+                    };
+
                     if (!!i.entranceOptionPriceId) {
-
-                        let number =
-                            String(i.eventId).substr(0, 1) +
-                            String(userId).substr(0, 1) +
-                            String(order.id).substr(0, 1) +
-                            (Math.floor(Math.random() * 9000) + 1000);
-                        let entranceOptionPrice = await EntranceOptionPrice.findOne({
-                            where: {id: i.entranceOptionPriceId},
-                        });
-
+                        let entranceOptionPrice = await EntranceOptionPrice.findOne({ where: { id: i.entranceOptionPriceId } });
                         entranceOptionPrice.seatsLeft -= 1;
                         await entranceOptionPrice.save();
 
                         await Ticket.create({
-                            orderId: order.id,
-                            eventId: i.eventId,
-                            number: Number(number),
+                            ...commonTicketParams,
                             entranceOptionPriceId: i.entranceOptionPriceId,
                         });
                     } else {
-
-                        let number =
-                            String(i.hall.event.id).substr(0, 1) +
-                            String(userId).substr(0, 1) +
-                            String(order.id).substr(0, 1) +
-                            (Math.floor(Math.random() * 9000) + 1000);
-
                         await Ticket.create({
-                            orderId: order.id,
-                            eventId: i.hall.event.id,
-                            number: Number(number),
+                            ...commonTicketParams,
                             row: i.row,
                             seat: i.seat,
-                           // hallОptionPriceId: hallOptionPrice.id,
                         });
                     }
                 }
             }
 
-            return res.json(order)
+            return res.json(order);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
     }
+
 
     async getAll(req, res) {
 
@@ -80,34 +65,73 @@ class OrderController {
 
     async getTicket(req, res, next) {
         try {
-            const {id} = req.params
-            const order = await Ticket.findAll({
+            const {id} = req.params;
+            const orders = await Ticket.findAll({
                 where: {orderId: id},
                 include: [
                     {
                         model: Event,
-                        as: 'event'
-                    },
-                    {
-                        model: EntranceOptionPrice,
-                        as: 'entranceOptionPrice',
+                        as: 'event',
                         include: [
+                            {model: Hall, as: 'hall'},
+                            {model: Entrance, as: 'entrance'},
                             {
-                                model: EntranceOption,
-                                as: 'entranceOption',
-                                include: [
-                                    {
-                                        model: Entrance,
-                                        as: 'entrance'
-                                    }
-                                ]
+                                model: EntranceOptionPrice,
+                                as: 'entranceOptionPrices',
+                                include: [{model: EntranceOption, as: 'entranceOption'}]
                             }
                         ]
                     }
                 ]
-            })
+            });
 
-            return res.json(order)
+            const formattedOrders = orders.map(order => {
+                const {
+                    id: ticketId,
+                    entrance,
+                    title,
+                    dateTime,
+                    hall,
+                    entranceOptionPrices,
+                    hallOptionPrices
+                } = order.event;
+
+                const venue = hall ? hall : entrance;
+                const venueName = venue ? venue.name : 'Unknown Venue';
+                const venueAddress = venue ? venue.address : 'Unknown Address';
+                const options = hall ? hallOptionPrices : entranceOptionPrices.filter(option => option.id === order.entranceOptionPriceId);
+
+                const validOption = options.find(option => {
+                    if (option.hallOption) {
+                        return option.hallOption.seatStart <= order.seat &&
+                            option.hallOption.seatFinish >= order.seat &&
+                            option.hallOption.rowStart <= order.row &&
+                            option.hallOption.rowFinish >= order.row;
+                    } else if (option.entranceOption && option.id === order.entranceOptionPriceId) {
+                        return true;
+                    }
+                    return false;
+                });
+
+                let optionName = validOption ? (validOption.hallOption ? validOption.hallOption.name : validOption.entranceOption ? validOption.entranceOption.name : 'Unknown Option') : 'Unknown Option';
+                let optionPrice = validOption ? validOption.price : 0;
+
+                return {
+                    ticketId,
+                    number: order.number,
+                    createdAt: order.createdAt,
+                    title,
+                    dateTime,
+                    venueName,
+                    venueAddress,
+                    optionName,
+                    optionPrice,
+                    row: order.row,
+                    seat: order.seat
+                };
+            });
+
+            return res.json(formattedOrders);
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
@@ -127,7 +151,7 @@ class OrderController {
                         include: [
                             {
                                 model: Event,
-                                include: [{model: Entrance}],
+                                include: [{model: Entrance},{model: Hall}],
                             },
                         ],
                     },
