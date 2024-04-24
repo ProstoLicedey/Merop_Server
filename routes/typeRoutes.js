@@ -4,6 +4,7 @@ const  typeController = require('../controller/typeController')
 
 router.post('/')
 router.get('/',  typeController.getAll)
+router.get('/city',  typeController.getAllCity)
 router.get('/rating',  typeController.getAllRating)
 router.put('/')
 router.delete('/')

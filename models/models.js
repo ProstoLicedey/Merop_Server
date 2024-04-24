@@ -75,6 +75,11 @@ const Type = sequelize.define('type', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING}
 })
+const City = sequelize.define('city', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING},
+    ideficator: {type: DataTypes.STRING},
+})
 
 const Entrance = sequelize.define('entrance', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -187,6 +192,9 @@ HallOptionPrice.belongsTo(HallOption)
 Hall.hasMany(HallPassage)
 HallPassage.belongsTo(Hall)
 
+City.hasMany(Hall)
+Hall.belongsTo(City)
+
 ///////////
 
 Entrance.hasMany(EntranceOption)
@@ -195,10 +203,11 @@ EntranceOption.belongsTo(Entrance)
 EntranceOption.hasMany(EntranceOptionPrice)
 EntranceOptionPrice.belongsTo(EntranceOption)
 
-
-
 EntranceOption.hasMany(EntranceOptionPrice)
 EntranceOptionPrice.belongsTo(EntranceOption)
+
+City.hasMany(Entrance)
+Entrance.belongsTo(City)
 
 ////////
 
@@ -224,5 +233,6 @@ module.exports = {
     HallPassage,
     HallOption,
     HallOptionPrice,
-    Controller
+    Controller,
+    City
 }
