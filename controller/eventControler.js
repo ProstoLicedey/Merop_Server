@@ -251,7 +251,7 @@ class EventController {
                     where: {eventId: event.id},
                     order: [['price', 'ASC']],
                 });
-                console.log(minPrice)
+
                 if (!minPrice){
                     minPrice = await HallOptionPrice.findOne({
                         where: {eventId: event.id},
@@ -259,10 +259,9 @@ class EventController {
                     });
                 }
                 event.dataValues.minPrice = minPrice ? minPrice.price : 0
-                if (minPrice) {
-                    continue
-                }
-                if (priceMin > minPrice || priceMax < minPrice) {
+
+
+                if (priceMin > event.dataValues.minPrice || priceMax < event.dataValues.minPrice) {
 
                     events.rows.splice(i, 1);
 

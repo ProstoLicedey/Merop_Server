@@ -6,48 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="menuController">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/entranceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/entranceController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/hallController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/hallController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/typeController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/typeController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/entranceRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/entranceRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/eventRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/eventRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/hallRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/hallRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/typeRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/typeRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/0028321e-e1e3-4fad-9bc6-df3fc567568c.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/002a7669-43b1-4efb-9365-f880b5ed1b06.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/0af9819c-6178-40e1-b779-a86ecad36bea.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/0c354803-b80b-47e6-9540-beb3c1b180e7.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/3967590e-df87-4383-a8dd-54067d283fef.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/4070f3cf-d642-4217-850d-6f51f1ef65e8.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/431157a8-75e4-41d0-9752-93b4d1e218e6.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/6059501c-325d-4844-93c9-421e7be87a0b.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/7824e053-3fe3-4b3b-8506-1144c1ad8f65.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/9089d210-0c66-41fd-9713-845c983289ab.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/a2bbe7e7-013f-430d-8439-c125b4857565.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/a364bbb8-9727-4c4f-83ad-2f0bf4fe4c41.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/aa32704e-e237-4e96-b388-5038910d54cd.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/ad42112d-b26d-41d7-90ef-d95f4c0c7e6f.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/ad63e05d-34e2-483a-b253-4543c2bc46bf.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/afa937a7-dc4e-4b0f-8423-2469af806d46.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/b450a521-bacd-4f71-83fd-2b9e7a490b14.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/b6ca516e-10a4-421e-81a5-29dbc35ed7c1.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/baceb89a-80da-491c-8a69-bd238f5c68f4.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/bb207ada-0103-4388-b9dd-f05042564c36.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/bc944414-b2d9-41fe-9277-1ee832b3bcfe.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/be149348-649e-4734-8438-ebe82badb825.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/bfddc551-fa73-404c-8ea2-228fae846181.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/c4d16eb0-851f-4b49-b8f9-9e378c0a1f80.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/c5c2a99c-3f4d-4d93-9984-8509cae44856.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/c7a2760c-e121-4931-9d8a-dddf749d914e.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/cbcd0bcc-5e5b-4d25-b0ae-4441a2e733ec.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/cdba8992-9c15-4af0-8d11-9fa8b27cef68.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/de21f905-6c4c-42fb-b17b-795e93cfc51f.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/eef4a61e-c950-437b-b95b-d6857820d18b.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/f02baf05-848f-4a39-8d22-18a2e8e1c2ce.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/f8cb8837-72d2-47a7-a190-e6c39de6f0df.jpeg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/f90e0fcf-797a-417b-83b1-5dfef502de98.jpeg" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,12 +16,12 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ProstoLicedey"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ProstoLicedey&quot;
   }
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -108,6 +67,8 @@
       <workItem from="1712521368613" duration="39143000" />
       <workItem from="1713177105411" duration="37018000" />
       <workItem from="1713388018892" duration="38126000" />
+      <workItem from="1714045758548" duration="717000" />
+      <workItem from="1714721941091" duration="7073000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />
