@@ -71,10 +71,37 @@ const AgeRating = sequelize.define('ageRating', {
     age: {type: DataTypes.INTEGER},
 })
 
+AgeRating.afterSync(async () => {
+    // Заполнение таблицы данными по умолчанию
+    const defaultRatings = [0, 6, 12, 14, 16, 18];
+    await Promise.all(defaultRatings.map(async (age) => {
+        await AgeRating.findOrCreate({ where: { age } });
+    }));
+});
+
+
 const Type = sequelize.define('type', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING}
 })
+
+Type.afterSync(async () => {
+    // Заполнение таблицы данными по умолчанию
+    const defaultTypes = [
+        "Концерты",
+        "Спектакль",
+        "Спорт",
+        "Кино",
+        "Фестивали",
+        "Stand-up",
+        "Выставки",
+        "Лекции"
+    ];
+    await Promise.all(defaultTypes.map(async (name) => {
+        await Type.findOrCreate({ where: { name } });
+    }));
+});
+
 const City = sequelize.define('city', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING},
