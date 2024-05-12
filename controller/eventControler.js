@@ -446,7 +446,7 @@ class EventController {
                 return next(ApiError.BadRequest(`Мероприятие не найдено`));
             }
 
-            return res.json({message: `Controller with id ${id} has been deleted successfully`});
+            return res.json({message: `Контроллер с  id ${id} успешно удален`});
         } catch (e) {
             next(ApiError.BadRequest(e));
         }

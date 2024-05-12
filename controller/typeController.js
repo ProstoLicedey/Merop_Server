@@ -1,13 +1,15 @@
 const uuid = require('uuid') // пакт для генерации id для картинок
 const path = require('path') // сохрание пути для картинки
-const {Type, AgeRating, City} = require('../models/models')
+const {Type, AgeRating, City, Order, Event} = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const  ApiError = require('../exeptions/apiError')
 class TypeController {
     async create(req, res, next) {
         try {
+            let {name} = req.body;
 
-
+            const type = await Type.create({ name});
+            return res.json(type.name);
         } catch (e) {
             next( ApiError.BadRequest(e))
         }
@@ -45,10 +47,24 @@ class TypeController {
         return res.json(formattedCity);
     }
 
+    async delete(req, res, next) {
+        try {
+            const {id} = req.query
+            const deletedType = await Type.destroy({
+                where: {
+                    id: id,
+                },
+            });
 
-    async getOne(req, res) {
 
+            if (!deletedType) {
+                return next(ApiError.BadRequest(`Тип не найден`));
+            }
 
+            return res.json({message: `Тип успешно удален`});
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
     }
 }
 

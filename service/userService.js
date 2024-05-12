@@ -39,6 +39,9 @@ class UserService{
         if (!isPassEquals){
             throw  ApiError.BadRequest('Неверный пароль')
         }
+        if(user.role.startsWith('BLOCKED')){
+            throw  ApiError.BlockedRequest()
+        }
         const userDto = new UserDto(user);
         const  tokens = tokenService.generateTokens({...userDto})
         await  tokenService.saveToken(user.id, tokens.refreshToken)

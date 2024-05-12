@@ -9,7 +9,6 @@ const User = sequelize.define('user', {
     surname: {type: DataTypes.STRING},
     birthday: {type: DataTypes.DATEONLY},
     role: {type: DataTypes.STRING, defaultValue: "USER"},
-
 })
 const Controller = sequelize.define('controller', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
