@@ -4,16 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="добавлен раздел admin Event">
-      <change afterPath="$PROJECT_DIR$/static/6a674af2-8020-4e9f-b908-f9048b223087.jpeg" afterDir="false" />
+    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="добавлена реклама">
+      <change afterPath="$PROJECT_DIR$/controller/marketingController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/marketingRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/static/ea88dad9-df5f-4a66-b902-77620281c7a3.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/eventRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/eventRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -75,7 +86,8 @@
       <workItem from="1715107279604" duration="5455000" />
       <workItem from="1715156459138" duration="17099000" />
       <workItem from="1715468251881" duration="8556000" />
-      <workItem from="1715530973064" duration="21475000" />
+      <workItem from="1715530973064" duration="45204000" />
+      <workItem from="1715639747885" duration="1867000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />
@@ -125,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715531224170</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Исправлена ошибка роутера">
+      <option name="closed" value="true" />
+      <created>1715564547659</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715564547659</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -141,6 +161,8 @@
     <MESSAGE value="комит перед деплоем" />
     <MESSAGE value="2 функции аккаунта администратора" />
     <MESSAGE value="добавлен раздел admin Event" />
-    <option name="LAST_COMMIT_MESSAGE" value="добавлен раздел admin Event" />
+    <MESSAGE value="Исправлена ошибка роутера" />
+    <MESSAGE value="добавлена реклама" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавлена реклама" />
   </component>
 </project>

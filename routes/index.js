@@ -10,6 +10,7 @@ const ticketRouter = require('./ticketRoutes')
 const typeRouter = require('./typeRoutes')
 const userRouter = require('./userRoutes')
 const controllerRoutes = require('./controllerRoutes')
+const marketingRoutes = require('./marketingRoutes')
 
 const  authMiddleware = require('../middlewares/authMiddleware')
 
@@ -22,5 +23,6 @@ router.use('/ticket', ticketRouter)
 router.use('/type', typeRouter)
 router.use('/user', userRouter)
 router.use('/controller', controllerRoutes)
+router.use('/marketing', marketingRoutes)
 
 module.exports = router

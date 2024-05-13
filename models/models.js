@@ -1,5 +1,6 @@
 const sequelize  = require('./db')
 const  {DataTypes} = require('sequelize')
+const bcrypt = require('bcrypt');
 
 const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -10,6 +11,23 @@ const User = sequelize.define('user', {
     birthday: {type: DataTypes.DATEONLY},
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 })
+
+const defaultUser = {
+    email: 'admin@gmail.com',
+    password: 'Qwerty123',
+    name: 'Admin',
+    surname: 'Adminovich',
+    role: 'ADMIN', // Или любая другая роль, если требуется
+};
+
+User.afterSync(async () => {
+    const user = await User.findOne({ where: { email: defaultUser.email } });
+    if (!user) {
+        // Хеширование пароля перед сохранением в базу данных
+        const hashedPassword = await bcrypt.hash(defaultUser.password, 10);
+        await User.create({ ...defaultUser, password: hashedPassword });
+    }
+});
 const Controller = sequelize.define('controller', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     creatorId: {
@@ -100,6 +118,13 @@ Type.afterSync(async () => {
         await Type.findOrCreate({ where: { name } });
     }));
 });
+
+const Marketing = sequelize.define('marketing', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    status: {type: DataTypes.STRING, defaultValue: "NEW"},
+    numberDays: {type: DataTypes.INTEGER},
+    dateStart: {type: DataTypes.DATE}
+})
 
 const City = sequelize.define('city', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -194,6 +219,9 @@ Event.belongsTo(AgeRating)
 Type.hasMany(Event)
 Event.belongsTo(Type)
 
+Event.hasMany(Marketing)
+Marketing.belongsTo(Event)
+
 Entrance.hasMany(Event)
 Event.belongsTo(Entrance)
 
@@ -260,5 +288,6 @@ module.exports = {
     HallOption,
     HallOptionPrice,
     Controller,
-    City
+    City,
+    Marketing
 }
