@@ -4,20 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="комит перед деплоем">
+    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="добавлен раздел admin Event">
+      <change afterPath="$PROJECT_DIR$/static/6a674af2-8020-4e9f-b908-f9048b223087.jpeg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/ticketController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ticketController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/typeController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/typeController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/exeptions/apiError.js" beforeDir="false" afterPath="$PROJECT_DIR$/exeptions/apiError.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/eventRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/eventRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/ticketRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/ticketRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/typeRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/typeRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/service/userService.js" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,24 +41,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/mi200/WebstormProjects/MeropServer",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mi200/WebstormProjects/MeropServer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -84,6 +75,7 @@
       <workItem from="1715107279604" duration="5455000" />
       <workItem from="1715156459138" duration="17099000" />
       <workItem from="1715468251881" duration="8556000" />
+      <workItem from="1715530973064" duration="21475000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />
@@ -125,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1714958426609</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="2 функции аккаунта администратора">
+      <option name="closed" value="true" />
+      <created>1715531224170</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1715531224170</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,6 +139,8 @@
     <MESSAGE value="комит перед update" />
     <MESSAGE value="menuController" />
     <MESSAGE value="комит перед деплоем" />
-    <option name="LAST_COMMIT_MESSAGE" value="комит перед деплоем" />
+    <MESSAGE value="2 функции аккаунта администратора" />
+    <MESSAGE value="добавлен раздел admin Event" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавлен раздел admin Event" />
   </component>
 </project>

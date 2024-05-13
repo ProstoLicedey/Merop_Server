@@ -224,9 +224,18 @@ class EventController {
                 where.dateTime = {[Op.gte]: new Date()};
             }
             if (serchTitle) {
-                where.title = {
-                    [Op.iLike]: `%${serchTitle}%`
-                };
+                where[Op.or] = [
+                    {
+                        title: {
+                            [Op.iLike]: `%${serchTitle}%`
+                        }
+                    },
+                    {
+                        description: {
+                            [Op.iLike]: `%${serchTitle}%`
+                        }
+                    }
+                ];
             }
             if (city) {
                 where[Op.or] = [
@@ -234,7 +243,6 @@ class EventController {
                     {'$entrance.cityId$': city}
                 ];
             }
-
 
             const events = await Event.findAndCountAll({
                 where,
@@ -245,56 +253,65 @@ class EventController {
                     as: 'ageRating'
                 }]
             });
+
             for (let i = events.rows.length - 1; i >= 0; i--) {
                 let event = events.rows[i];
+                if (event.Status === 'BLOCKED') {
+                    events.rows.splice(i, 1);
+                    continue; // Пропустить остальные проверки и перейти к следующей итерации цикла
+                }
+
                 let minPrice = await EntranceOptionPrice.findOne({
                     where: {eventId: event.id},
                     order: [['price', 'ASC']],
                 });
 
-                if (!minPrice){
+                if (!minPrice) {
                     minPrice = await HallOptionPrice.findOne({
                         where: {eventId: event.id},
                         order: [['price', 'ASC']],
                     });
                 }
-                event.dataValues.minPrice = minPrice ? minPrice.price : 0
-
+                event.dataValues.minPrice = minPrice ? minPrice.price : 0;
 
                 if (priceMin > event.dataValues.minPrice || priceMax < event.dataValues.minPrice) {
-
                     events.rows.splice(i, 1);
-
                 }
             }
 
             return res.json(events);
         } catch (e) {
-            next(e)
+            next(e);
         }
     }
 
 
+
     async getOne(req, res, next) {
         try {
-            const {id} = req.params
+            const { id } = req.params;
             const event = await Event.findOne({
-                where: {id},
+                where: { id },
                 include: [
-                    {model: Hall, as: 'hall'},
-                    {model: Entrance, as: 'entrance'},
-                    {model: AgeRating, as: 'ageRating'},
-                    {model: Type, as: 'type'}
+                    { model: Hall, as: 'hall' },
+                    { model: Entrance, as: 'entrance' },
+                    { model: AgeRating, as: 'ageRating' },
+                    { model: Type, as: 'type' }
                 ]
-            })
+            });
+
+            if (event.Status === 'BLOCKED') {
+                return res.status(403).json({ message: 'This event is blocked.' });
+            }
+
             if (event.entrance) {
                 const minPrice = await EntranceOptionPrice.findOne({
-                    where: {eventId: id},
+                    where: { eventId: id },
                     order: [['price', 'ASC']],
                     attributes: ['price']
                 });
                 const maxPrice = await EntranceOptionPrice.findOne({
-                    where: {eventId: id},
+                    where: { eventId: id },
                     order: [['price', 'DESC']],
                     attributes: ['price']
                 });
@@ -303,21 +320,21 @@ class EventController {
             }
             if (event.hall) {
                 const minPrice = await HallOptionPrice.findOne({
-                    where: {eventId: id},
+                    where: { eventId: id },
                     order: [['price', 'ASC']],
                     attributes: ['price']
                 });
                 const maxPrice = await HallOptionPrice.findOne({
-                    where: {eventId: id},
+                    where: { eventId: id },
                     order: [['price', 'DESC']],
                     attributes: ['price']
                 });
                 event.dataValues.maxPrice = maxPrice.price;
                 event.dataValues.minPrice = minPrice.price;
             }
-            return res.json(event)
+            return res.json(event);
         } catch (e) {
-            next(e)
+            next(e);
         }
     }
 
@@ -356,6 +373,168 @@ class EventController {
         }
     }
 
+    async searchAdmin(req, res, next) {
+        try {
+            const {input} = req.query;
+            const where = {};
+
+            if (input === undefined || input === null) {
+                return res.json([]);
+            }
+            if (input) {
+                if (!isNaN(input)) { // Проверяем, является ли вход числом
+                    where.id = input;
+                } else {
+                    where[Op.or] = [
+                        {
+                            title: {
+                                [Op.iLike]: `%${input}%`
+                            }
+                        },
+                        {
+                            description: {
+                                [Op.iLike]: `%${input}%`
+                            }
+                        }
+                    ];
+                }
+            }
+
+            const events = await Event.findAll({
+                where: where
+            });
+
+            const transformedEvents = events.map(event => ({
+                value: event.id,
+                label: `№${event.id} | ${event.title} | ${moment(event.dateTime).locale('ru').format('DD MMMM HH:mm')}`
+            }));
+
+            return res.json(transformedEvents);
+        } catch (e) {
+            next(e);
+        }
+    }
+    async block(req, res, next) {
+        try {
+            const {id} = req.params;
+            const event = await Event.findOne({ where: { id } });
+
+            if (!event) {
+                throw ApiError.NotFound('Мероприятие не найдено');
+            }
+
+            // Проверяем, начинается ли роль пользователя с "BLOCKED"
+            if (event.Status === "BLOCKED") {
+                event.Status = "ACTIVE";
+            } else {
+                event.Status = "BLOCKED";
+            }
+
+            await event.save();
+
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+    async getForAdmin(req, res, next) {
+        try {
+            const {id} = req.params
+
+            const event = await Event.findOne({
+                where: {id},
+                include: [
+                    {model: Hall, as: 'hall'},
+                    {model: Entrance, as: 'entrance'},
+                    {model: AgeRating, as: 'ageRating'},
+                    {model: Type, as: 'type'},
+                    {model: User, as: 'user'}
+                ]
+            })
+
+
+            if (!event) {
+                return res.status(403).json({error: 'Пользователь не найден'});
+            }
+
+            const data = [
+                {
+                    key: '0',
+                    field: '№',
+                    value: event.id,
+                },
+                {
+                    key: '1',
+                    field: 'Название',
+                    value: event.title,
+                },
+                {
+                    key: '2',
+                    field: 'Создатель',
+                    value: event.user.email,
+                },
+                {
+                    key: '3',
+                    field: 'Дата',
+                    value: moment(event.dateTime).locale('ru').format('DD MMMM HH:mm'),
+                },
+                {
+                    key: '4',
+                    field: 'Описание',
+                    value: event.description,
+                },
+                {
+                    key: '5',
+                    field: 'Возрастное ограничение',
+                    value: `${event.ageRating.age}+`,
+                },
+                {
+                    key: '6',
+                    field: 'Тип мероприятия ',
+                    value: event.type.name,
+                },
+                {
+                    key: '7',
+                    field: 'Статус',
+                    value: event.Status,
+                },
+
+            ];
+
+            if(event.entrance){
+                data.push({
+                    key: '7',
+                    field: 'Место',
+                    value: event.entrance.name,
+                });
+                data.push({
+                    key: '8',
+                    field: 'Адрес',
+                    value: event.entrance.address,
+
+                });
+            }
+            else if(event.hall){
+                data.push({
+                    key: '7',
+                    field: 'Место',
+                    value: event.hall.name,
+                });
+                data.push({
+                    key: '8',
+                    field: 'Адрес',
+                    value: event.hall.address,
+
+                });
+            }
+
+            return res.json(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+
     async getCreator(req, res, next) {
         try {
             let {userId, archive} = req.query;
@@ -385,12 +564,13 @@ class EventController {
                 const EOs = await EntranceOption.findAll({
                     where: {entranceId: event.entranceId},
                 });
-                let seatsLeftSum, seatsTotalSum, mests;
+                let seatsLeftSum, seatsTotalSum, mests, percent ;
 
                 if (EOPs.length > 0 && EOs.length > 0) {
                     seatsLeftSum = EOPs.reduce((total, eop) => total + eop.seatsLeft, 0);
                     seatsTotalSum = EOs.reduce((total, eo) => total + eo.totalSeats, 0);
-                    mests = seatsLeftSum + "/" + seatsTotalSum
+                    mests = seatsTotalSum-seatsLeftSum + "/" + seatsTotalSum
+                    percent = 100 - ((seatsLeftSum / seatsTotalSum) * 100)
                 } else {
                     const ticketCount = await Ticket.count({
                         where: {eventId: event.id},
@@ -401,7 +581,8 @@ class EventController {
                     if (!!hall) {
                         seatsTotalSum = hall.numberRows * hall.numberSeatsInRow;
                         seatsLeftSum = seatsTotalSum - ticketCount;
-                        mests = seatsLeftSum + "/" + seatsTotalSum
+                        mests = seatsTotalSum -seatsLeftSum + "/" + seatsTotalSum
+                        percent =100 - ((seatsLeftSum / seatsTotalSum) * 100)
                     }
                 }
 
@@ -411,6 +592,8 @@ class EventController {
                     title: event.title,
                     dateTime: moment(event.dateTime).locale('ru').format('DD MMMM HH:mm ddd'),
                     mests: mests ? mests : '',
+                    percent: percent.toFixed(2),
+                    status: event.Status,
 
                 };
 
