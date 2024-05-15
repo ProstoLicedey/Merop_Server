@@ -89,6 +89,77 @@ class EventController {
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
+    } async create(req, res, next) {
+        try {
+            let {title, description, dateTime, typeId, ageRatingId, userId, option, type} = req.body;
+            const {img} = req.files;
+
+            option = JSON.parse(option);
+
+            let fileName = uuid.v4() + ".jpeg";
+            await img.mv(path.resolve(__dirname, '..', 'static', fileName));
+            console.log(fileName);
+
+            let entranceOption, hallOption;
+
+            if (type === 'Entrance') {
+                entranceOption = await EntranceOption.findOne({
+                    where: {id: option[0].id},
+                    include: [{model: Entrance, as: 'entrance'}]
+                });
+            } else if (type === 'Hall') {
+                hallOption = await HallOption.findOne({
+                    where: {id: option[0].id},
+                    include: [{model: Hall, as: 'hall'}]
+                });
+            }
+
+            const event = await Event.create({
+                title,
+                description,
+                dateTime,
+                typeId,
+                ageRatingId,
+                userId,
+                entranceId: entranceOption ? entranceOption.entrance.id : null,
+                hallId: hallOption ? hallOption.hall.id : null,
+                img: fileName
+            });
+
+            if (type === 'Entrance') {
+                const EOP = await Promise.all(option.map(async (entrance) => {
+                    const entranceOption = await EntranceOption.findOne({
+                        where: {id: entrance.id}
+                    });
+                    if (entrance.switchState) {
+                        return EntranceOptionPrice.create({
+                            price: entrance.price,
+                            seatsLeft: entranceOption.totalSeats,
+                            entranceOptionId: entrance.id,
+                            eventId: event.id
+                        });
+                    } else {
+                        return null;
+                    }
+                }));
+            } else if (type === 'Hall') {
+                const HOP = await Promise.all(option.map(async (opt) => {
+                    const hallOption = await HallOption.findOne({
+                        where: {id: opt.id}
+                    });
+
+                    return HallOptionPrice.create({
+                        price: opt.price,
+                        hallOptionId: hallOption.id,
+                        eventId: event.id
+                    });
+                }));
+            }
+
+            return res.json(event);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
     }
 
 
@@ -300,8 +371,9 @@ class EventController {
             const {id} = req.params;
             const event = await Event.findOne({
                 where: {id},
+                attributes: ['id', 'title', 'description', 'dateTime', 'img', 'Status'],
                 include: [
-                    {model: Hall, as: 'hall'},
+                    {model: Hall, as: 'hall', attributes: ['id', 'name', 'address', ], },
                     {model: Entrance, as: 'entrance'},
                     {model: AgeRating, as: 'ageRating'},
                     {model: Type, as: 'type'}
@@ -340,7 +412,23 @@ class EventController {
                 event.dataValues.maxPrice = maxPrice.price;
                 event.dataValues.minPrice = minPrice.price;
             }
-            return res.json(event);
+
+            const newEvent = {
+                id: event.id,
+                title: event.title,
+                description: event.description,
+                dateTime: event.dateTime,
+                img: event.img,
+                Status: event.Status,
+                type: event.type ? event.type.name : null,
+                ageRating: event.ageRating ? event.ageRating.age : null,
+                hall: event.hall ? event.hall : null,
+                entrance: event.entrance ? event.entrance : null,
+                maxPrice: event.dataValues.maxPrice,
+                minPrice: event.dataValues.minPrice,
+            };
+
+            return res.json(newEvent);
         } catch (e) {
             next(e);
         }

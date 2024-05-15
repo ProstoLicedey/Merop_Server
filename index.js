@@ -10,6 +10,10 @@ const errorMiddleware = require('./middlewares/errorMiddleware')
 const path = require("path");
 const fileUpload = require('express-fileupload')
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger/swagger.js');
+
+
 
 const app = express()
 app.use(express.static(path.resolve(__dirname, 'static')))
@@ -21,6 +25,9 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use('/api', router)
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 app.use(errorMiddleware)
 
 app.get('/', (req, res) => {

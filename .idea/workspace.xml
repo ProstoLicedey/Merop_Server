@@ -5,14 +5,103 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="добавлена реклама">
-      <change afterPath="$PROJECT_DIR$/controller/marketingController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routes/marketingRoutes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/ea88dad9-df5f-4a66-b902-77620281c7a3.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/swagger/swagger.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/marketingController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/marketingController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/ticketController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ticketController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/typeController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/typeController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.bin/loose-envify.ps1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/hoist-non-react-statics/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/js-tokens/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/cli.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/custom.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/loose-envify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/loose-envify/replace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/checkPropTypes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factory.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factoryWithThrowingShims.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/factoryWithTypeCheckers.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/lib/ReactPropTypesSecret.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/lib/has.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/prop-types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/prop-types/prop-types.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/lib/async-script-loader.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/lib/esm/async-script-loader.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-async-script/src/async-script-loader.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.github/ISSUE_TEMPLATE/issue-template.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.github/workflows/standard-ci.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/.prettierrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/MIGRATION.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/jest.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/esm/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/esm/recaptcha-wrapper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/esm/recaptcha.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/recaptcha-wrapper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/lib/recaptcha.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/src/recaptcha-wrapper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-google-recaptcha/src/recaptcha.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/build-info.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/cjs/react-is.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/cjs/react-is.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/umd/react-is.development.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/react-is/umd/react-is.production.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/ageRatingRoutes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/entranceRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/entranceRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/eventRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/eventRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/hallRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/hallRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/orderRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orderRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/seatRoutes.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/ticketRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/ticketRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/typeRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/typeRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +112,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="package.json" />
       </list>
     </option>
   </component>
@@ -52,24 +142,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mi200/WebstormProjects/MeropServer&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/mi200/WebstormProjects/MeropClient",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.keymap",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -88,6 +179,8 @@
       <workItem from="1715468251881" duration="8556000" />
       <workItem from="1715530973064" duration="45204000" />
       <workItem from="1715639747885" duration="1867000" />
+      <workItem from="1715669066216" duration="3125000" />
+      <workItem from="1715771912712" duration="28655000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />

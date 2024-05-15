@@ -11,41 +11,6 @@ const moment = require("moment/moment");
 
 class ticketController {
 
-
-    // async getTicket(req, res, next) {
-    //     try {
-    //         const {id} = req.params
-    //         const ticket = await Ticket.findOne({
-    //             where: {number: id},
-    //             attributes: ['number', 'row', 'seat', 'status'],
-    //             include: [
-    //                 {
-    //                     model: Event,
-    //                     as: 'event',
-    //                     attributes: ['title', 'dateTime', 'userId', 'img'],
-    //                 },
-    //                 {
-    //                     model: EntranceOptionPrice,
-    //                     as: 'entranceOptionPrice',
-    //                     attributes: [],
-    //                     include: [
-    //                         {
-    //                             model: EntranceOption,
-    //                             as: 'entranceOption',
-    //                             attributes: ['name'],
-    //                         },
-    //                     ]
-    //                 },
-    //
-    //             ]
-    //
-    //         })
-    //
-    //         return res.json(ticket)
-    //     } catch (e) {
-    //         next(ApiError.BadRequest(e));
-    //     }
-    // }
     async getTicket(req, res, next) {
         try {
             const {number} = req.params
@@ -256,7 +221,7 @@ class ticketController {
                 },
             });
 
-            if(!!ticket.entranceOptionPriceId){
+            if(ticket.entranceOptionPriceId !== null){
                 let entranceOptionPrice = await EntranceOptionPrice.findOne({ where: { id: ticket.entranceOptionPriceId } });
 
                 if(!entranceOptionPrice){

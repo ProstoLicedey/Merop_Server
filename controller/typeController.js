@@ -8,8 +8,11 @@ class TypeController {
         try {
             let {name} = req.body;
 
+            if(name === undefined || name === null){
+                next( ApiError.BadRequest("name не указан"))
+            }
             const type = await Type.create({ name});
-            return res.json(type.name);
+            return res.json(type);
         } catch (e) {
             next( ApiError.BadRequest(e))
         }

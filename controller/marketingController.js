@@ -175,6 +175,11 @@ class MarketingController {
             try {
                 const {id} = req.params;
                 let {status} = req.body;
+
+                if(status === undefined || status === null){
+                    next( ApiError.BadRequest("status не указан"))
+                }
+
                 const marketing = await Marketing.findOne({ where: { id } });
 
                 if (!marketing) {
