@@ -7,7 +7,7 @@ const User = sequelize.define('user', {
     email: {type: DataTypes.STRING, unique: true,},
     password: {type: DataTypes.STRING},
     name: {type: DataTypes.STRING},
-    surname: {type: DataTypes.STRING},
+    surname: {type: DataTypes.TEXT},
     birthday: {type: DataTypes.DATEONLY},
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 })
@@ -146,7 +146,7 @@ const EntranceOption = sequelize.define('entranceOption', {
 })
 const EntranceOptionPrice = sequelize.define('entranceOptionPrice', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    price: {type: DataTypes.INTEGER},
+    price: {type: DataTypes.INTEGER, defaultValue: 0},
     seatsLeft: {type: DataTypes.INTEGER},
 })
 const Hall = sequelize.define('hall', {
@@ -174,7 +174,7 @@ const HallOption = sequelize.define('hallOption', {
 })
 const HallOptionPrice = sequelize.define('hallOptionPrice', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    price: {type: DataTypes.INTEGER},
+    price: {type: DataTypes.INTEGER,  defaultValue: 0},
 
 })
 

@@ -6,3 +6,5 @@ node_modules/
 
 # Игнорировать файл package-lock.json
 package-lock.json
+
+.env

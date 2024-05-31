@@ -43,20 +43,22 @@ class MarketingController {
                 }]
             });
 
-            const transformedData = marketing.map(item => {
-                const startDate = item.dateStart ? moment(item.dateStart).locale('ru').format('DD.MM.YYYY') : null;
-                const endDate = item.dateStart ? moment(item.dateStart).add(item.numberDays, 'days').locale('ru').format('DD.MM.YYYY') : null;
-                const date = startDate && endDate ? startDate + " / " + endDate : 'подача заявки: ' + moment(item.createdAt).locale('ru').format('DD.MM.YYYY hh:mm');
+            const transformedData = marketing
+                .filter(item => item.event != null)
+                .map(item => {
+                    const startDate = item.dateStart ? moment(item.dateStart).locale('ru').format('DD.MM.YYYY') : null;
+                    const endDate = item.dateStart ? moment(item.dateStart).add(item.numberDays, 'days').locale('ru').format('DD.MM.YYYY') : null;
+                    const date = startDate && endDate ? startDate + " / " + endDate : 'подача заявки: ' + moment(item.createdAt).locale('ru').format('DD.MM.YYYY hh:mm');
 
-                return {
-                    id: item.id,
-                    title: "№" + item.event.id + " " + item.event.title,
-                    email: item.event.user.email,
-                    status: item.status,
-                    numberDays: item.numberDays,
-                    date: date
-                };
-            });
+                    return {
+                        id: item.id,
+                        title:  "№" + item.event.id + " " + item.event.title,
+                        email: item.event.user.email,
+                        status: item.status,
+                        numberDays: item.numberDays,
+                        date: date
+                    };
+                });
 
             // Сортировка по статусу
             transformedData.sort((a, b) => {
@@ -152,18 +154,27 @@ class MarketingController {
                         [Op.gt]: new Date() // выбираем только те события, у которых dateTime больше текущего времени
                     }
                 },
+                include: [
+                    {
+                        model: Marketing,
+                        as: 'marketings',
+                    }
+                ]
 
             });
 
             // Преобразуем полученные события в нужный формат
-            const formattedEvents = events.map(event => {
-                const daysLeft = Math.ceil((new Date(event.dateTime) - new Date()) / (1000 * 60 * 60 * 24));
-                return {
-                    value: event.id,
-                    label: `№${event.id} | ${event.title} | ${moment(event.dateTime).locale('ru').format('DD MMMM HH:mm')}`,
-                    daysLeft: daysLeft
-                };
-            });
+            const formattedEvents = events
+                .filter(event => event.marketings.length === 0)
+                .map(event => {
+                    const daysLeft = Math.ceil((new Date(event.dateTime) - new Date()) / (1000 * 60 * 60 * 24));
+                    return {
+                        value: event.id,
+                        label: `№${event.id} | ${event.title} | ${moment(event.dateTime).locale('ru').format('DD MMMM HH:mm')}`,
+                        daysLeft: daysLeft
+                    };
+                });
+
 
             return res.json(formattedEvents);
         } catch (e) {

@@ -7,7 +7,7 @@ const {
     Entrance,
 
     EntranceOptionPrice,
-    EntranceOption, HallOption, HallOptionPrice, Hall
+    EntranceOption, HallOption, HallOptionPrice, Hall, City
 } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
@@ -18,8 +18,8 @@ const {Sequelize, DataTypes} = require('sequelize');
 class OrderController {
     async create(req, res, next) {
         try {
-            let { userId, tickets } = req.body;
-            const order = await Order.create({ userId });
+            let {userId, tickets} = req.body;
+            const order = await Order.create({userId});
 
             if (tickets) {
                 tickets = JSON.parse(tickets);
@@ -33,7 +33,7 @@ class OrderController {
                     };
 
                     if (!!i.entranceOptionPriceId) {
-                        let entranceOptionPrice = await EntranceOptionPrice.findOne({ where: { id: i.entranceOptionPriceId } });
+                        let entranceOptionPrice = await EntranceOptionPrice.findOne({where: {id: i.entranceOptionPriceId}});
                         entranceOptionPrice.seatsLeft -= 1;
                         await entranceOptionPrice.save();
 
@@ -73,8 +73,8 @@ class OrderController {
                         model: Event,
                         as: 'event',
                         include: [
-                            {model: Hall, as: 'hall'},
-                            {model: Entrance, as: 'entrance'},
+                            {model: Hall, as: 'hall', include: [{model: City, as: 'city'}]},
+                            {model: Entrance, as: 'entrance', include: [{model: City, as: 'city'}]},
                             {
                                 model: EntranceOptionPrice,
                                 as: 'entranceOptionPrices',
@@ -102,8 +102,8 @@ class OrderController {
                 } = order.event;
 
                 const venue = hall ? hall : entrance;
-                const venueName = venue ? venue.name : 'Unknown Venue';
-                const venueAddress = venue ? venue.address : 'Unknown Address';
+                const venueName = venue ? venue.name : '';
+                const venueAddress = venue ? "г. "+ venue.city.name + " "+ venue.address : '';
                 const options = hall ? hallOptionPrices : entranceOptionPrices.filter(option => option.id === order.entranceOptionPriceId);
 
                 const validOption = options.find(option => {
@@ -143,7 +143,6 @@ class OrderController {
     }
 
 
-
     async getOrders(req, res, next) {
         try {
             const {id} = req.params;
@@ -156,7 +155,9 @@ class OrderController {
                         include: [
                             {
                                 model: Event,
-                                include: [{model: Entrance},{model: Hall}],
+                                include: [
+                                    {model: Entrance, include: [{model: City, as: 'city'}]},
+                                    {model: Hall, include: [{model: City, as: 'city'}]}, ],
                             },
                         ],
                     },
@@ -165,7 +166,7 @@ class OrderController {
 
             const formattedOrders = orders.map((order) => {
                 const ticketsCount = order.tickets.length;
-                const firstTicket = order.tickets.length > 0 ? order.tickets[0] : null;
+                const firstTicket = ticketsCount > 0 ? order.tickets[0] : null;
 
                 let address = null;
                 let addressName = null;
@@ -175,12 +176,24 @@ class OrderController {
 
                     if (event.entrance) {
                         addressName = event.entrance.name;
-                        address = event.entrance.address;
+                        address = event.entrance.city.name + " " + event.entrance.address;
                     } else if (event.hall) {
                         addressName = event.hall.name;
-                        address = event.hall.address;
+                        address = event.hall.city.name + " " + event.hall.address;
                     }
                 }
+                let status = false;
+                let usedNotAll = false
+                order.tickets.forEach((ticket) => {
+                    console.log('order' + order.id + "ticket" + ticket.number + ticket.status)
+                    if (ticket.status) {
+                        status = true
+                    }
+                    else {
+                        usedNotAll = true
+                    }
+                });
+
                 return {
                     id: order.id,
                     ticketsCount,
@@ -188,7 +201,7 @@ class OrderController {
                     address,
                     addressName,
                     title: firstTicket && firstTicket.event ? firstTicket.event.title : null,
-                    status: firstTicket && firstTicket.event ? firstTicket.event.Status : null,
+                    status: usedNotAll && status ? 'notAll' : status,
                     img: firstTicket && firstTicket.event ? firstTicket.event.img : null,
                 };
             });
@@ -201,6 +214,7 @@ class OrderController {
         } catch (e) {
             next(ApiError.BadRequest(e));
         }
+
     }
 
     async getByuers(req, res, next) {

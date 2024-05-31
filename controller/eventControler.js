@@ -9,7 +9,7 @@ const {
     Type,
     EntranceOptionPrice,
     HallOptionPrice,
-    EntranceOption, Controller, User, Ticket, HallOption, Marketing
+    EntranceOption, Controller, User, Ticket, HallOption, Marketing, City
 } = require('../models/models')
 const {Op, fn, col, Sequelize} = require("sequelize"); //модель
 const {sequelize} = require('sequelize')
@@ -60,9 +60,11 @@ class EventController {
                     const entranceOption = await EntranceOption.findOne({
                         where: {id: entrance.id}
                     });
+                    let price = !!entrance.price && entrance.price != "" ? entrance.price : 0
+
                     if (entrance.switchState) {
                         return EntranceOptionPrice.create({
-                            price: entrance.price,
+                            price: price,
                             seatsLeft: entranceOption.totalSeats,
                             entranceOptionId: entrance.id,
                             eventId: event.id
@@ -76,80 +78,10 @@ class EventController {
                     const hallOption = await HallOption.findOne({
                         where: {id: opt.id}
                     });
+                    let price = !!opt.price && opt.price != "" ? opt.price : 0
 
                     return HallOptionPrice.create({
-                        price: opt.price,
-                        hallOptionId: hallOption.id,
-                        eventId: event.id
-                    });
-                }));
-            }
-
-            return res.json(event);
-        } catch (e) {
-            next(ApiError.BadRequest(e));
-        }
-    } async create(req, res, next) {
-        try {
-            let {title, description, dateTime, typeId, ageRatingId, userId, option, type} = req.body;
-            const {img} = req.files;
-
-            option = JSON.parse(option);
-
-            let fileName = uuid.v4() + ".jpeg";
-            await img.mv(path.resolve(__dirname, '..', 'static', fileName));
-            console.log(fileName);
-
-            let entranceOption, hallOption;
-
-            if (type === 'Entrance') {
-                entranceOption = await EntranceOption.findOne({
-                    where: {id: option[0].id},
-                    include: [{model: Entrance, as: 'entrance'}]
-                });
-            } else if (type === 'Hall') {
-                hallOption = await HallOption.findOne({
-                    where: {id: option[0].id},
-                    include: [{model: Hall, as: 'hall'}]
-                });
-            }
-
-            const event = await Event.create({
-                title,
-                description,
-                dateTime,
-                typeId,
-                ageRatingId,
-                userId,
-                entranceId: entranceOption ? entranceOption.entrance.id : null,
-                hallId: hallOption ? hallOption.hall.id : null,
-                img: fileName
-            });
-
-            if (type === 'Entrance') {
-                const EOP = await Promise.all(option.map(async (entrance) => {
-                    const entranceOption = await EntranceOption.findOne({
-                        where: {id: entrance.id}
-                    });
-                    if (entrance.switchState) {
-                        return EntranceOptionPrice.create({
-                            price: entrance.price,
-                            seatsLeft: entranceOption.totalSeats,
-                            entranceOptionId: entrance.id,
-                            eventId: event.id
-                        });
-                    } else {
-                        return null;
-                    }
-                }));
-            } else if (type === 'Hall') {
-                const HOP = await Promise.all(option.map(async (opt) => {
-                    const hallOption = await HallOption.findOne({
-                        where: {id: opt.id}
-                    });
-
-                    return HallOptionPrice.create({
-                        price: opt.price,
+                        price: price,
                         hallOptionId: hallOption.id,
                         eventId: event.id
                     });
@@ -161,6 +93,79 @@ class EventController {
             next(ApiError.BadRequest(e));
         }
     }
+
+    // async create(req, res, next) {
+    //     try {
+    //         let {title, description, dateTime, typeId, ageRatingId, userId, option, type} = req.body;
+    //         const {img} = req.files;
+    //
+    //         option = JSON.parse(option);
+    //
+    //         let fileName = uuid.v4() + ".jpeg";
+    //         await img.mv(path.resolve(__dirname, '..', 'static', fileName));
+    //         console.log(fileName);
+    //
+    //         let entranceOption, hallOption;
+    //
+    //         if (type === 'Entrance') {
+    //             entranceOption = await EntranceOption.findOne({
+    //                 where: {id: option[0].id},
+    //                 include: [{model: Entrance, as: 'entrance'}]
+    //             });
+    //         } else if (type === 'Hall') {
+    //             hallOption = await HallOption.findOne({
+    //                 where: {id: option[0].id},
+    //                 include: [{model: Hall, as: 'hall'}]
+    //             });
+    //         }
+    //
+    //         const event = await Event.create({
+    //             title,
+    //             description,
+    //             dateTime,
+    //             typeId,
+    //             ageRatingId,
+    //             userId,
+    //             entranceId: entranceOption ? entranceOption.entrance.id : null,
+    //             hallId: hallOption ? hallOption.hall.id : null,
+    //             img: fileName
+    //         });
+    //
+    //         if (type === 'Entrance') {
+    //             const EOP = await Promise.all(option.map(async (entrance) => {
+    //                 const entranceOption = await EntranceOption.findOne({
+    //                     where: {id: entrance.id}
+    //                 });
+    //                 if (entrance.switchState) {
+    //                     return EntranceOptionPrice.create({
+    //                         price: entrance.price,
+    //                         seatsLeft: entranceOption.totalSeats,
+    //                         entranceOptionId: entrance.id,
+    //                         eventId: event.id
+    //                     });
+    //                 } else {
+    //                     return null;
+    //                 }
+    //             }));
+    //         } else if (type === 'Hall') {
+    //             const HOP = await Promise.all(option.map(async (opt) => {
+    //                 const hallOption = await HallOption.findOne({
+    //                     where: {id: opt.id}
+    //                 });
+    //
+    //                 return HallOptionPrice.create({
+    //                     price: opt.price,
+    //                     hallOptionId: hallOption.id,
+    //                     eventId: event.id
+    //                 });
+    //             }));
+    //         }
+    //
+    //         return res.json(event);
+    //     } catch (e) {
+    //         next(ApiError.BadRequest(e));
+    //     }
+    // }
 
 
     async update(req, res, next) {
@@ -234,7 +239,7 @@ class EventController {
                         // Оставить seatsLeft неизменным
                         const seatsLeft = currentEntranceOption ? currentEntranceOption.seatsLeft : entranceOption.totalSeats;
                         await EntranceOptionPrice.update({
-                            price: entrance.price,
+                            price: entrance.price ? entrance.price : 0,
                             seatsLeft: seatsLeft, // Использовать текущее значение seatsLeft
                         }, {
                             where: {
@@ -251,7 +256,7 @@ class EventController {
                     });
 
                     await HallOptionPrice.update({
-                        price: opt.price,
+                        price: opt.price ? opt.price : 0,
                     }, {
                         where: {
                             hallOptionId: hallOption.id,
@@ -308,12 +313,6 @@ class EventController {
                     }
                 ];
             }
-            if (city) {
-                where[Op.or] = [
-                    {'$hall.cityId$': city},
-                    {'$entrance.cityId$': city}
-                ];
-            }
 
             const events = await Event.findAndCountAll({
                 where,
@@ -324,22 +323,23 @@ class EventController {
                     {model: Entrance, as: 'entrance'},
                     {model: AgeRating, as: 'ageRating'},
                     {model: Marketing}
-
                 ]
             });
 
-            // Отфильтровать активные мероприятия
-            const activeEvents = events.rows.filter(event => event.marketings.some(marketing => marketing.status === 'ACTIVE'));
-            const inactiveEvents = events.rows.filter(event => !event.marketings.some(marketing => marketing.status === 'ACTIVE'));
+            const filteredEvents = events.rows.filter(event => {
+                return event.hall || event.entrance;
+            });
 
-            // Объединить активные и неактивные мероприятия
-            const sortedEvents = [...activeEvents, ...inactiveEvents];
+            const activeEvents = filteredEvents.filter(event => event.marketings.some(marketing => marketing.status === 'ACTIVE'));
+            const inactiveEvents = filteredEvents.filter(event => !event.marketings.some(marketing => marketing.status === 'ACTIVE'));
+
+            let sortedEvents = [...activeEvents, ...inactiveEvents];
 
             for (let i = sortedEvents.length - 1; i >= 0; i--) {
                 let event = sortedEvents[i];
                 if (event.Status === 'BLOCKED') {
                     sortedEvents.splice(i, 1);
-                    continue; // Пропустить остальные проверки и перейти к следующей итерации цикла
+                    continue;
                 }
 
                 let minPrice = await EntranceOptionPrice.findOne({
@@ -360,11 +360,21 @@ class EventController {
                 }
             }
 
-            return res.json({count:events.count , rows:sortedEvents});
+            // Применяем фильтрацию по городу только если есть хотя бы один зал или вход
+            if (city) {
+                sortedEvents = sortedEvents.filter(event => {
+                    console.log(city)
+                    console.log("#" + event.id + " " + event.hall?.cityId || event.entrance?.cityId)
+                    return event.hall?.cityId == city || event.entrance?.cityId == city;
+                });
+            }
+
+            return res.json({count: events.count, rows: sortedEvents});
         } catch (e) {
             next(e);
         }
     }
+
 
     async getOne(req, res, next) {
         try {
@@ -373,10 +383,24 @@ class EventController {
                 where: {id},
                 attributes: ['id', 'title', 'description', 'dateTime', 'img', 'Status'],
                 include: [
-                    {model: Hall, as: 'hall', attributes: ['id', 'name', 'address', ], },
-                    {model: Entrance, as: 'entrance'},
+                    {model: Hall,
+                        as: 'hall',
+                        attributes: ['id', 'name', 'address',],
+                        include: [
+                            {model: City, as: 'city'}
+                        ]
+
+                    },
+                    {
+                        model: Entrance,
+                        as: 'entrance',
+                        include: [
+                            {model: City, as: 'city'}
+                        ]
+                    },
                     {model: AgeRating, as: 'ageRating'},
-                    {model: Type, as: 'type'}
+                    {model: Type, as: 'type'},
+                    {model: User, as: 'user'},
                 ]
             });
 
@@ -426,6 +450,10 @@ class EventController {
                 entrance: event.entrance ? event.entrance : null,
                 maxPrice: event.dataValues.maxPrice,
                 minPrice: event.dataValues.minPrice,
+                creatorName: event.user.name,
+                creatorDiscription: event.user.surname,
+                creatorEmail: event.user.email,
+
             };
 
             return res.json(newEvent);
@@ -689,7 +717,7 @@ class EventController {
                     title: event.title,
                     dateTime: moment(event.dateTime).locale('ru').format('DD MMMM HH:mm ddd'),
                     mests: mests ? mests : '',
-                    percent: percent.toFixed(2),
+                    percent: percent ? percent.toFixed(2) : 0,
                     status: event.Status,
 
                 };

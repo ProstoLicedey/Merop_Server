@@ -66,6 +66,15 @@ class UserController {
             next(ApiError.BadRequest(e))
         }
     }
+    async getAdmin(req, res, next) {
+        try {
+           const users = await  User.findAll({attributes: ['id', 'email', 'name', 'surname', 'birthday', 'role'],})
+
+            return res.json(users);
+        } catch (e) {
+            next(ApiError.BadRequest(e))
+        }
+    }
 
     async refresh(req, res, next) {
         try {
