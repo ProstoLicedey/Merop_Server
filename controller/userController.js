@@ -21,6 +21,7 @@ class UserController {
             const errors = validationResult(req);
 
             const {email, password, name, surname, birthday, role, creatorId} = req.body;
+            console.log(1)
             const userData = await userService.registration(email, password, name, surname, birthday, role, creatorId)
 
             if (userData !== "Пользователь добавлен") {
@@ -183,6 +184,7 @@ class UserController {
         }
     }
 
+
     async getOne(req, res, next) {
         try {
             const {id} = req.params
@@ -305,7 +307,7 @@ class UserController {
                 if (totalTickets != 0) {
                     data.push({
                         key: '7',
-                        field: 'Всего забронированно билетов    ',
+                        field: 'Всего забронировано билетов    ',
                         value: totalTickets,
                         children: [
                             {key: '9', field: 'Забронировано на предстоящие мероприятия', value: activeTickets},

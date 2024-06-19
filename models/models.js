@@ -50,7 +50,7 @@ const Controller = sequelize.define('controller', {
 })
 const Token = sequelize.define('token', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    refreshToken: {type: DataTypes.STRING, required: true},
+    refreshToken: {type: DataTypes.TEXT, required: true},
 })
 const UpdatePassword = sequelize.define('updatePassword', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},

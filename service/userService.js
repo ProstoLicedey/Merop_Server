@@ -24,8 +24,11 @@ class UserService{
 
         const userDto = new UserDto(user);
         const tokens = tokenService.generateTokens({...userDto});
+        console.log(3)
         await  LinkService.saveLink(userDto.id, email  )
+        console.log(4)
         await  tokenService.saveToken(userDto.id, tokens.refreshToken)
+        console.log(5)
 
         return{...tokens, user: userDto}
     }

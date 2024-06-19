@@ -35,7 +35,7 @@ class MailService{
             await this.transporter.sendMail({
                 from: process.env.SMTP_USER,
                 to,
-                subject: 'Востановление пароля',
+                subject: 'Восстановление пароля',
                 text: '',
                 html:
                     `

@@ -1,6 +1,6 @@
 const {
     Type, Order, Ticket, UpdatePassword, Event, EntranceОptionPrice, Entrance, User, HallОptionPrice,
-    EntranceOptionPrice, EntranceOption, Controller, City, Hall
+    EntranceOptionPrice, EntranceOption, Controller, City, Hall, HallOptionPrice, HallOption
 } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
@@ -13,15 +13,29 @@ class ticketController {
 
     async getTicket(req, res, next) {
         try {
-            const {number} = req.params
+            const {number} = req.params;
             const {idUser} = req.query;
+
             let ticket = await Ticket.findOne({
                 where: {number: number},
                 include: [
                     {
                         model: Event,
                         as: 'event',
-                        attributes: ['title', 'dateTime', 'userId', 'img'],
+                        include: [
+                            {model: Hall, as: 'hall'},
+                            {model: Entrance, as: 'entrance'},
+                            {
+                                model: EntranceOptionPrice,
+                                as: 'entranceOptionPrices',
+                                include: [{model: EntranceOption, as: 'entranceOption'}]
+                            },
+                            {
+                                model: HallOptionPrice,
+                                as: 'hallOptionPrices',
+                                include: [{model: HallOption, as: 'hallOption'}]
+                            }
+                        ]
                     },
                     {
                         model: EntranceOptionPrice,
@@ -34,11 +48,9 @@ class ticketController {
                             },
                         ]
                     }
-
-
                 ]
+            });
 
-            })
             if (!ticket) {
                 return res.status(403).json({error: 'Ticket not found'});
             }
@@ -46,21 +58,40 @@ class ticketController {
             if (ticket.event.userId !== Number(idUser)) {
                 let controller = await Controller.findOne({
                     where: {creatorId: ticket.event.userId, controllerId: Number(idUser)}
-                })
-                console.log('ticket#' + controller)
+                });
                 if (!controller) {
                     return res.status(403).json({error: 'Unauthorized'});
                 }
-
             }
 
+            // Logic for determining the optionPrice and optionName
+            const {entranceOptionPrices, hallOptionPrices} = ticket.event;
+            const options = ticket.event.hall ? hallOptionPrices : entranceOptionPrices.filter(option => option.id === ticket.entranceOptionPriceId);
+
+            const validOption = options.find(option => {
+                if (option.hallOption) {
+                    return option.hallOption.seatStart <= ticket.seat &&
+                        option.hallOption.seatFinish >= ticket.seat &&
+                        option.hallOption.rowStart <= ticket.row &&
+                        option.hallOption.rowFinish >= ticket.row;
+                } else if (option.entranceOption && option.id === ticket.entranceOptionPriceId) {
+                    return true;
+                }
+                return false;
+            });
+
+            const optionName = validOption ? (validOption.hallOption ? validOption.hallOption.name : validOption.entranceOption ? validOption.entranceOption.name : 'Unknown Option') : 'Unknown Option';
+            const optionPrice = validOption ? validOption.price : 0;
+
             const modifiedTicket = {
-                ...ticket.toJSON(),  // Копирование свойств ticket
+                ...ticket.toJSON(),
                 updatedAt: moment(ticket.updatedAt).locale('ru').format('DD MMMM HH:mm'),
                 event: {
                     ...ticket.event.toJSON(),
                     dateTime: moment(ticket.event.dateTime).locale('ru').format('DD MMMM HH:mm'),
-                }
+                },
+                optionName,  // Add optionName
+                optionPrice  // Add optionPrice
             };
 
             return res.json(modifiedTicket);
@@ -68,6 +99,7 @@ class ticketController {
             next(ApiError.BadRequest(e));
         }
     }
+
 
     async Checked(req, res, next) {
         try {
@@ -121,6 +153,8 @@ class ticketController {
                     dateTime: moment(ticket.event.dateTime).locale('ru').format('DD MMMM HH:mm'),
                 }
             };
+
+
 
             return res.json(modifiedTicket);
         } catch (e) {

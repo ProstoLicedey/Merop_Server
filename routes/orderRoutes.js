@@ -183,5 +183,6 @@ router.post('/', orderController.create)
 router.get('/getTicket/:id',  orderController.getTicket)
 router.get('/user/:id', orderController.getOrders )
 router.get('/buyer/:id', orderController.getByuers )
+router.get('/toCreator/:id', orderController.toCreator )
 
 module.exports = router

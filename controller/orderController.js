@@ -7,13 +7,15 @@ const {
     Entrance,
 
     EntranceOptionPrice,
-    EntranceOption, HallOption, HallOptionPrice, Hall, City
+    EntranceOption, HallOption, HallOptionPrice, Hall, City, User
 } = require('../models/models')
 const {Op} = require("sequelize"); //модель
 const ApiError = require('../exeptions/apiError')
 const fse = require('fs-extra');
 const {join} = require("path");
 const {Sequelize, DataTypes} = require('sequelize');
+const sequelize = require("sequelize");
+const moment = require("moment/moment");
 
 class OrderController {
     async create(req, res, next) {
@@ -241,6 +243,56 @@ class OrderController {
             next(ApiError.BadRequest(e));
         }
     }
+    async toCreator(req, res, next) {
+        try {
+            const { id } = req.params;
+
+            // Получение заказов
+            const orders = await Order.findAll({
+                include: [
+                    {
+                        model: Ticket,
+                        include: [
+                            {
+                                model: Event,
+                                where: { userId: id },
+                            },
+                        ],
+                    },
+                    {
+                        model: User,
+                    },
+                ],
+            });
+            const formattedOrders = orders
+                .map(order => {
+                    if (order.tickets && order.tickets.length > 0) {
+                        const formattedOrder = {
+                            id: order.id,
+                            title:  "№" + order.tickets[0]?.event?.id + " " + order.tickets[0]?.event?.title,
+                            email: order.user?.email,
+                            FIO: order.user?.name + " "+ order.user?.surname,
+                            createdAt: moment(order.createdAt).locale('ru').format('DD MMMM HH:mm'),
+                            countTicket: order.tickets.length,
+                            countTicketUsed: order.tickets.filter(ticket => ticket.status === false).length
+                        };
+
+                        return formattedOrder;
+                    }
+                    return null;
+                })
+                .filter(order => order !== null);
+
+            return res.json(formattedOrders);
+        } catch (e) {
+            next(ApiError.BadRequest(e));
+        }
+    }
+
+
+
+
+
 
 }
 

@@ -4,17 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="игноры">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="изменение перед деплоем">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/eventControler.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/eventControler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controller/marketingController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/marketingController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/orderController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/orderController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/ticketController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/ticketController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/controller/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/controller/userController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dto/userDto.js" beforeDir="false" afterPath="$PROJECT_DIR$/dto/userDto.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/models.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/models.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/controllerRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/controllerRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/marketingRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/marketingRoutes.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/orderRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orderRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/mailService.js" beforeDir="false" afterPath="$PROJECT_DIR$/service/mailService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/tokenService.js" beforeDir="false" afterPath="$PROJECT_DIR$/service/tokenService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/userService.js" beforeDir="false" afterPath="$PROJECT_DIR$/service/userService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,13 +26,14 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="package.json" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -55,27 +58,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/mi200/WebstormProjects/MeropClient&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/mi200/WebstormProjects/MeropServer",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="4" Folder0="C:\Users\mi200\Music\русский" Folder1="C:\Users\mi200\Music\русский" Folder2="C:\Users\mi200\Music\русский" Folder3="C:\Users\mi200\Music\русский" CustomDictionaries="4" CustomDictionary0="C:\Users\mi200\Music\русский\ru.dic" CustomDictionary1="C:\Users\mi200\Music\русский\ru_gen4.dic" CustomDictionary2="C:\Users\mi200\Music\русский\ru_names4.dic" CustomDictionary3="C:\Users\mi200\Music\русский\ru_phys4.dic" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f4bf162d-28bf-41cb-9b36-3cf8848029ec" name="Changes" comment="" />
@@ -98,7 +101,23 @@
       <workItem from="1715842647545" duration="4360000" />
       <workItem from="1716243080192" duration="4880000" />
       <workItem from="1716915323312" duration="13000" />
-      <workItem from="1717046916693" duration="10171000" />
+      <workItem from="1717046916693" duration="22296000" />
+      <workItem from="1717681672696" duration="5184000" />
+      <workItem from="1717687078878" duration="656000" />
+      <workItem from="1717698593201" duration="2182000" />
+      <workItem from="1717703263110" duration="2460000" />
+      <workItem from="1717715409666" duration="10845000" />
+      <workItem from="1717875319960" duration="1709000" />
+      <workItem from="1717929717342" duration="6139000" />
+      <workItem from="1718101207251" duration="818000" />
+      <workItem from="1718127988681" duration="2999000" />
+      <workItem from="1718180266436" duration="119000" />
+      <workItem from="1718276961295" duration="19000" />
+      <workItem from="1718398295015" duration="235000" />
+      <workItem from="1718570142825" duration="2155000" />
+      <workItem from="1718713385513" duration="18000" />
+      <workItem from="1718713489808" duration="284000" />
+      <workItem from="1718765365160" duration="609000" />
     </task>
     <task id="LOCAL-00001" summary="допилины некоторые функции">
       <option name="closed" value="true" />
@@ -172,7 +191,23 @@
       <option name="project" value="LOCAL" />
       <updated>1715815901503</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="куча мелких доработок">
+      <option name="closed" value="true" />
+      <created>1717117062533</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1717117062533</updated>
+    </task>
+    <task id="LOCAL-00011" summary="куча мелких доработок">
+      <option name="closed" value="true" />
+      <created>1717117113142</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1717117113142</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +227,8 @@
     <MESSAGE value="добавлена реклама" />
     <MESSAGE value="добавлена части swagger" />
     <MESSAGE value="игноры" />
-    <option name="LAST_COMMIT_MESSAGE" value="игноры" />
+    <MESSAGE value="куча мелких доработок" />
+    <MESSAGE value="изменение перед деплоем" />
+    <option name="LAST_COMMIT_MESSAGE" value="изменение перед деплоем" />
   </component>
 </project>
